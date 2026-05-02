@@ -1,14 +1,14 @@
 from app.config import WEATHER_API_KEY
 from fastapi import HTTPException
 import requests
-import time
+import redis
+import json
+r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
-cache = {}
 
 def get_weather(city:str):
-    current_time = time.time()
-    if city in cache and current_time - cache[city]["time"] < 10:
-        return cache[city]["data"]
+    if r.get(city):
+        return json.loads(r.get(city))
     
     print("API CALL")
     response = requests.get(f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?key={WEATHER_API_KEY}")
@@ -22,7 +22,6 @@ def get_weather(city:str):
         "temperature": result["days"][0]["temp"],
         "condition": result["days"][0]["conditions"]
     }
-    cache[city] = {"data": weather_data,
-                   "time": current_time }
+    r.set(city, json.dumps(weather_data), ex=10)
     
-    return cache[city]["data"]
+    return json.loads(r.get(city))
