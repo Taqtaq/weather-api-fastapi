@@ -1,13 +1,14 @@
-from app.config import WEATHER_API_KEY
+from app.config import WEATHER_API_KEY, REDIS_HOST, REDIS_PORT
 from fastapi import HTTPException
 import requests
 import redis
 import json
-r = redis.Redis(host='localhost', port=6379, decode_responses=True)
+
+r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
 
 
 def get_weather(city:str):
-    city_in_cache = r.get(city);
+    city_in_cache = r.get(city)
     if city_in_cache:
         return json.loads(city_in_cache)
     
@@ -17,8 +18,10 @@ def get_weather(city:str):
         raise HTTPException(status_code=404, detail="City not found")
     
     result = response.json()
+
     temp_f = result["days"][0]["temp"]
     temp_c = (temp_f - 32) * 5 / 9
+
     weather_data = {
         "city": result["resolvedAddress"],
         "temperature": round(temp_c,1),
