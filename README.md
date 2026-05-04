@@ -24,19 +24,26 @@ It fetches weather data from an external API and caches it using Redis.
 ```bash
 git clone https://github.com/YOUR_USERNAME/weather-app.git
 cd weather-app
+```
 2. Install dependencies
+```
 pip install -r requirements.txt
-3. Create .env file
+```
+4. Create .env file
 WEATHER_API_KEY=your_api_key_here
 
 Get your API key from:
 https://www.visualcrossing.com/
 
 4. Run Redis (Docker)
+```
 docker run --name weather-redis -p 6379:6379 -d redis
-5. Run backend
+```
+6. Run backend
+```
 python -m uvicorn app.main:app --reload
-6. Run frontend
+```
+8. Run frontend
 
 Open:
 
