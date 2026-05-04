@@ -7,8 +7,9 @@ r = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
 
 def get_weather(city:str):
-    if r.get(city):
-        return json.loads(r.get(city))
+    city_in_cache = r.get(city);
+    if city_in_cache:
+        return json.loads(city_in_cache)
     
     print("API CALL")
     response = requests.get(f"https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/{city}?key={WEATHER_API_KEY}")
@@ -16,12 +17,13 @@ def get_weather(city:str):
         raise HTTPException(status_code=404, detail="City not found")
     
     result = response.json()
-
+    temp_f = result["days"][0]["temp"]
+    temp_c = (temp_f - 32) * 5 / 9
     weather_data = {
         "city": result["resolvedAddress"],
-        "temperature": result["days"][0]["temp"],
+        "temperature": round(temp_c,1),
         "condition": result["days"][0]["conditions"]
     }
     r.set(city, json.dumps(weather_data), ex=10)
     
-    return json.loads(r.get(city))
+    return weather_data
