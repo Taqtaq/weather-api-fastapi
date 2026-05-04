@@ -14,7 +14,7 @@ function getWeather(){
 
     result.innerHTML = `<div class="loading">Loading...</div>`;
 
-    fetch(`http://127.0.0.1:8000/weather/?city=${cityName}`)
+    fetch(`https://weather-api-fastapi-9qzk.onrender.com/weather/?city=${cityName}`)
     .then(response=> {
         if (response.ok === false){
             throw new Error("City not found")
