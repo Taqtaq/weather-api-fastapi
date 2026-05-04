@@ -3,4 +3,3 @@ uvicorn
 redis
 requests
 python-dotenv
-json
