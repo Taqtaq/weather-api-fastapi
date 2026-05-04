@@ -137,6 +137,11 @@ This project demonstrates:
 
 ---
 
+## 🌐 Live Demo
+
+Frontend: https://taqtaq.github.io/weather-api-fastapi/  
+Backend: https://weather-api-fastapi-9qzk.onrender.com
+
 ## 👨‍💻 Author
 
 Nika Taqtaqishvili (Taqtaq)  
