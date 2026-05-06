@@ -127,6 +127,7 @@ requirements.txt
 
 ---
 
+
 ## 💡 Notes
 
 This project demonstrates:
@@ -134,8 +135,9 @@ This project demonstrates:
 - Working with third-party APIs
 - Caching with Redis
 - Building a simple fullstack app
-
 ---
+
+https://roadmap.sh/projects/weather-api-wrapper-service
 
 ## 🌐 Live Demo
 
